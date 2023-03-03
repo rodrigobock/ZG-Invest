@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 col-sm-12">
+      <div class="form-group">
+        <label for="startDate">Data Inicial:</label>
+        <input type="date" id="startDate" class="form-control" [(ngModel)]="startDate" required>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <div class="form-group">
+        <label for="endDate">Data Final:</label>
+        <input type="date" id="endDate" class="form-control" [(ngModel)]="endDate" required>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <div class="form-group">
+        <label for="symbol">Código da Empresa:</label>
+        <select id="symbol" class="form-control" [(ngModel)]="selectedCompany" required>
+          <option *ngFor="let company of companies" [value]="company">{{ company }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12" style="margin-top: 0.6cm;">
+      <button class="btn btn-primary btn-block" (click)="getTradeData()">Buscar Dados</button>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-12 text-center">
+      <p *ngIf="tradeData.length === 0">Não há dados disponíveis.</p>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>Porcentagem</th>
+        <th>Valor em Reais</th>
+        <th>Valor com %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of tradeData">
+        <td>{{ data.symbol }}</td>
+        <td>{{ data.percentage }}</td>
+        <td>{{ data.valueInReais }}</td>
+        <td>{{ data.valorComPorcentagem }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
