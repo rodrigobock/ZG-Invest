@@ -1,0 +1,6 @@
+#Thu, 02 Mar 2023 21:36:51 -0300
+
+info.app.version=0.1
+info.app.name=zg
+grails.env=development
+info.app.grailsVersion=5.3.0
