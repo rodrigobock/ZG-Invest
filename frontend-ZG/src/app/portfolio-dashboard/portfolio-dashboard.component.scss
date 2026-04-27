@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.dashboard-wrapper {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &.dark-theme {
+    background-color: #0f172a;
+    color: #f1f5f9;
+
+    .navbar {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+    }
+
+    .card {
+      background-color: #1e293b;
+      color: #f1f5f9;
+    }
+
+    .text-muted {
+      color: #94a3b8 !important;
+    }
+
+    .form-control, .form-select {
+      background-color: #334155;
+      border-color: #475569;
+      color: #f1f5f9;
+
+      &:focus {
+        background-color: #334155;
+        color: #f1f5f9;
+      }
+    }
+
+    .bg-surface {
+      background-color: #1e293b !important;
+    }
+    
+    ::ng-deep {
+      .ngx-charts {
+        text {
+          fill: #94a3b8 !important;
+        }
+        .gridline-path {
+          stroke: #334155 !important;
+        }
+      }
+    }
+  }
+}
+
+.transition-base {
+  transition: all 0.3s ease;
+}
+
+.shadow-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.icon-shape {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 1.25rem;
+}
+
+// Soft Colors for Indicators
+.bg-soft-primary { background-color: rgba(13, 110, 253, 0.1); }
+.bg-soft-info { background-color: rgba(13, 202, 240, 0.1); }
+.bg-soft-success { background-color: rgba(16, 185, 129, 0.1); }
+.bg-soft-danger { background-color: rgba(239, 68, 68, 0.1); }
+
+.text-success { color: #10b981 !important; }
+.text-danger { color: #ef4444 !important; }
+
+.navbar {
+  z-index: 1030;
+}
+
+.filter-item {
+  min-width: 120px;
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  .filter-item {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}

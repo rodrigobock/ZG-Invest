@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:14
+    container_name: zginvest-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bolsa
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./bolsa.bkp:/docker-entrypoint-initdb.d/bolsa.sql
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend-ZG
+    container_name: zginvest-backend
+    ports:
+      - "8080:8080"
+    environment:
+      # Sobrescreve as configurações do banco de dados no Spring/Grails usando o host "db"
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/bolsa
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend-ZG
+    container_name: zginvest-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

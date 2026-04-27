@@ -1,0 +1,161 @@
+<div class="dashboard-wrapper" [class.dark-theme]="isDarkTheme">
+  <!-- Top Navbar / Filter Bar -->
+  <nav class="navbar sticky-top bg-surface border-bottom shadow-sm py-3">
+    <div class="container-fluid px-lg-5">
+      <span class="navbar-brand mb-0 h4 fw-bold text-primary">
+        <i class="fa-solid fa-chart-pie me-2"></i>ZG-Invest Portfolio
+      </span>
+      
+      <div class="d-flex align-items-center gap-3 flex-wrap flex-grow-1 justify-content-end">
+        <div class="filter-item">
+          <label class="small text-muted d-block mb-1">Ativo</label>
+          <select class="form-select form-select-sm" [(ngModel)]="symbol" (change)="fetchData()">
+            <option *ngFor="let s of availableSymbols" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        
+        <div class="filter-item">
+          <label class="small text-muted d-block mb-1">Início</label>
+          <input type="date" class="form-control form-select-sm" [(ngModel)]="startDate" (change)="fetchData()">
+        </div>
+        
+        <div class="filter-item">
+          <label class="small text-muted d-block mb-1">Fim</label>
+          <input type="date" class="form-control form-select-sm" [(ngModel)]="endDate" (change)="fetchData()">
+        </div>
+
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 mt-3 mt-sm-0" (click)="toggleTheme()">
+          <i class="fa-solid" [ngClass]="isDarkTheme ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-fluid px-lg-5 py-4">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="d-flex flex-column justify-content-center align-items-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-3 text-muted">Calculando performance do portfólio...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!isLoading && hasError" class="alert alert-danger shadow-sm d-flex align-items-center" role="alert">
+      <i class="fa-solid fa-circle-exclamation fs-4 me-3"></i>
+      <div>
+        Erro ao carregar dados. Verifique a conexão com o backend.
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div *ngIf="!isLoading && !hasError">
+      
+      <!-- Summary Cards -->
+      <div class="row g-4 mb-4" *ngIf="cumulativeData">
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-hover transition-base">
+            <div class="card-body">
+              <h6 class="text-muted text-uppercase small fw-bold mb-3">Custo de Aquisição</h6>
+              <div class="d-flex align-items-center">
+                <div class="icon-shape bg-soft-primary text-primary me-3">
+                  <i class="fa-solid fa-wallet"></i>
+                </div>
+                <h3 class="mb-0 fw-bold">{{ formatCurrency(cumulativeData.custoTotal) }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-hover transition-base">
+            <div class="card-body">
+              <h6 class="text-muted text-uppercase small fw-bold mb-3">Valor Patrimonial Atual</h6>
+              <div class="d-flex align-items-center">
+                <div class="icon-shape bg-soft-info text-info me-3">
+                  <i class="fa-solid fa-vault"></i>
+                </div>
+                <h3 class="mb-0 fw-bold">{{ formatCurrency(cumulativeData.valorAtual) }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-hover transition-base">
+            <div class="card-body">
+              <h6 class="text-muted text-uppercase small fw-bold mb-3">Rentabilidade</h6>
+              <div class="d-flex align-items-center">
+                <div class="icon-shape me-3" 
+                     [ngClass]="cumulativeData.returnPercentage >= 0 ? 'bg-soft-success text-success' : 'bg-soft-danger text-danger'">
+                  <i class="fa-solid" [ngClass]="cumulativeData.returnPercentage >= 0 ? 'fa-caret-up' : 'fa-caret-down'"></i>
+                </div>
+                <div>
+                  <h3 class="mb-0 fw-bold" 
+                      [ngClass]="cumulativeData.returnPercentage >= 0 ? 'text-success' : 'text-danger'">
+                    {{ formatPercentage(cumulativeData.returnPercentage) }}
+                  </h3>
+                  <p class="small text-muted mb-0">Preço atual: {{ formatCurrency(cumulativeData.currentPrice) }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart Section -->
+      <div class="row g-4">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-4 px-4">
+              <h5 class="fw-bold mb-0">Evolução Patrimonial Diária</h5>
+              <p class="text-muted small mb-0">Acompanhamento do valor investido ao longo do tempo</p>
+            </div>
+            <div class="card-body p-4" style="height: 450px;">
+              
+              <div *ngIf="noData" class="empty-state d-flex flex-column align-items-center justify-content-center h-100">
+                <i class="fa-solid fa-folder-open text-muted fs-1 mb-3"></i>
+                <h5 class="text-muted">Não há transações nesse período</h5>
+                <p class="text-muted small text-center">Tente ajustar o intervalo de datas ou selecione outro ativo.</p>
+              </div>
+
+              <ngx-charts-line-chart
+                *ngIf="!noData && chartData.length > 0"
+                [scheme]="colorScheme"
+                [results]="chartData"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [autoScale]="autoScale"
+                [timeline]="timeline">
+                
+                <ng-template #tooltipTemplate let-model="model">
+                  <div class="p-2 bg-white shadow-sm border rounded text-dark">
+                    <p class="mb-1 small fw-bold">{{ model.name | date:'dd/MM/yyyy' }}</p>
+                    <p class="mb-1 fw-bold text-primary">Patrimônio: {{ formatCurrency(model.value) }}</p>
+                    <p class="mb-0 small text-muted">Preço Unitário: {{ formatCurrency(model.extra.currentPrice) }}</p>
+                  </div>
+                </ng-template>
+
+                <ng-template #seriesTooltipTemplate let-model="model">
+                   <div class="p-2 bg-white shadow-sm border rounded text-dark">
+                    <p class="mb-1 small fw-bold">{{ model[0].name | date:'dd/MM/yyyy' }}</p>
+                    <p class="mb-1 fw-bold text-primary">Patrimônio: {{ formatCurrency(model[0].value) }}</p>
+                    <p class="mb-0 small text-muted">Preço Unitário: {{ formatCurrency(model[0].extra.currentPrice) }}</p>
+                  </div>
+                </ng-template>
+
+              </ngx-charts-line-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>

@@ -4,7 +4,9 @@ class UrlMappings {
 
     static mappings = {
 
-        // Mantido apenas um mapping pois é o unico necessário
+        get "/portfolio/daily"(controller: "userTrade", action: "daily")
+        get "/portfolio/cumulative"(controller: "userTrade", action: "cumulative")
+        
         get "/$controller(.$format)?"(action: "getSpecificValues")
 
         "/"(controller: 'application', action: 'index')

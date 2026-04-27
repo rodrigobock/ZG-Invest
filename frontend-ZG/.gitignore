@@ -1,0 +1,31 @@
+# Output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.cproject
+.settings/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.vscode/project.xcworkspace
+.vscode/xcuserdata
+.history
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Angular cache
+/.angular/cache
