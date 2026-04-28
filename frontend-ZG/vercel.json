@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://SEU-BACKEND-URL.com/$1"
+      "destination": "https://zg-invest.fly.dev/$1"
     },
     {
       "source": "/(.*)",
