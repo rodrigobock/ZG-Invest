@@ -25,7 +25,7 @@ info:
         grailsVersion: '@info.app.grailsVersion@'
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/bolsa
+        url: jdbc:postgresql://localhost:5432/postgres?currentSchema=bolsa
         username: postgres
         password: root
         driverClassName: org.postgresql.Driver
@@ -105,6 +105,7 @@ hibernate:
         queries: false
         use_second_level_cache: false
         use_query_cache: false
+    default_schema: bolsa
 dataSource:
     pooled: true
     jmxExport: true
@@ -116,13 +117,13 @@ environments:
     development:
         dataSource:
             dbCreate: none
-            url: jdbc:postgresql://localhost:5432/bolsa
+            url: jdbc:postgresql://localhost:5432/postgres?currentSchema=bolsa
     production:
         dataSource:
             dbCreate: none
-            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/bolsa}
-            username: ${SPRING_DATASOURCE_USERNAME:postgres}
-            password: ${SPRING_DATASOURCE_PASSWORD:root}
+            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa}
+            username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
+            password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
             properties:
                 jmxEnabled: true
                 initialSize: 5

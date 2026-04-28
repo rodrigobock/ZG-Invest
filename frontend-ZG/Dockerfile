@@ -8,5 +8,7 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 # Copia a build do angular da pasta definida no angular.json (dist/frontend-zg)
 COPY --from=build /app/dist/frontend-zg /usr/share/nginx/html
+# Copia a configuração do nginx para suportar proxy e SPA
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
