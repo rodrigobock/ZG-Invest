@@ -113,6 +113,8 @@ hibernate:
         use_second_level_cache: false
         use_query_cache: false
     default_schema: bolsa
+    osiv:
+        enabled: false
 dataSource:
     pooled: true
     jmxExport: true
