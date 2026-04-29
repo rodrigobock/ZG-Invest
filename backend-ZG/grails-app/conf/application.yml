@@ -25,9 +25,9 @@ info:
         grailsVersion: '@info.app.grailsVersion@'
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/postgres?currentSchema=bolsa
-        username: postgres
-        password: root
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa}
+        username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
+        password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
         driverClassName: org.postgresql.Driver
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQL14Dialect
