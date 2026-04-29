@@ -12,4 +12,4 @@ WORKDIR /app
 # Projetos Grails com 'apply plugin: "war"' geram o executável em .war
 COPY --from=build /app/build/libs/*.war app.war
 EXPOSE 8080
-CMD ["java", "-jar", "app.war"]
+CMD ["sh", "-c", "java -Dserver.port=${PORT:-8080} -jar app.war"]
