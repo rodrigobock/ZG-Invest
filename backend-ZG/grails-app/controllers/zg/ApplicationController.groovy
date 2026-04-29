@@ -1,15 +1,10 @@
 package zg
 
-import grails.core.GrailsApplication
-import grails.plugins.GrailsPluginManager
-import grails.plugins.PluginManagerAware
+import grails.converters.JSON
 
-class ApplicationController implements PluginManagerAware {
-
-    GrailsApplication grailsApplication
-    GrailsPluginManager pluginManager
+class ApplicationController {
 
     def index() {
-        [grailsApplication: grailsApplication, pluginManager: pluginManager]
+        render([status: "ok"] as JSON)
     }
 }

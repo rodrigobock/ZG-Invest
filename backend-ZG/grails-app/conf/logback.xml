@@ -11,7 +11,12 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <logger name="zg" level="DEBUG" />
+    <logger name="grails" level="INFO" />
+    <logger name="org.grails" level="INFO" />
+    <logger name="org.springframework.boot" level="INFO" />
+
+    <root level="warn">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
