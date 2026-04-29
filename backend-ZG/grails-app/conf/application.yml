@@ -15,7 +15,7 @@ grails:
             allowedMethods: [ 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ]
             allowedHeaders: [ 'Origin', 'Authorization', 'Content-Type', 'X-Requested-With' ]
             exposeHeaders: [ 'ETag' ]
-            allowCredentials: true
+            allowCredentials: false
             maxAge: 3600
 
 info:
@@ -25,7 +25,7 @@ info:
         grailsVersion: '@info.app.grailsVersion@'
 spring:
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa}
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10}
         username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
         password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
         driverClassName: org.postgresql.Driver
@@ -33,6 +33,7 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQL14Dialect
         hibernate:
             ddl-auto: none
+        open-in-view: false
     jmx:
         unique-names: true
     main:
@@ -62,6 +63,12 @@ environments:
         management:
             endpoints:
                 enabled-by-default: false
+                web:
+                    exposure:
+                        include: 'health'
+            endpoint:
+                health:
+                    enabled: true
 
 ---
 grails:
@@ -121,13 +128,13 @@ environments:
     production:
         dataSource:
             dbCreate: none
-            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa}
+            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10}
             username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
             password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
             properties:
                 jmxEnabled: true
-                initialSize: 5
-                maxActive: 50
+                initialSize: 1
+                maxActive: 10
                 minIdle: 5
                 maxIdle: 25
                 maxWait: 10000
