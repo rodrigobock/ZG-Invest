@@ -25,7 +25,7 @@ info:
         grailsVersion: '@info.app.grailsVersion@'
 spring:
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10}
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10&tcpKeepAlive=true}
         username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
         password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
         driverClassName: org.postgresql.Driver
@@ -130,7 +130,7 @@ environments:
     production:
         dataSource:
             dbCreate: none
-            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10}
+            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10&tcpKeepAlive=true}
             username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
             password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
             properties:
