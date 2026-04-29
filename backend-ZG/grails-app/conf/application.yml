@@ -130,16 +130,16 @@ environments:
     production:
         dataSource:
             dbCreate: none
-            url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?currentSchema=bolsa&socketTimeout=30&connectTimeout=10&tcpKeepAlive=true}
-            username: ${SPRING_DATASOURCE_USERNAME:postgres.jdsgehsflfwzlatcrjpj}
-            password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
+            url: ${SPRING_DATASOURCE_URL}
+            username: ${SPRING_DATASOURCE_USERNAME}
+            password: ${SPRING_DATASOURCE_PASSWORD}
             properties:
                 jmxEnabled: true
-                initialSize: 2
-                maxActive: 20
-                minIdle: 2
-                maxIdle: 10
-                maxWait: 30000
+                initialSize: 1
+                maxActive: 5
+                minIdle: 1
+                maxIdle: 3
+                maxWait: 10000
                 maxAge: 600000
                 timeBetweenEvictionRunsMillis: 5000
                 minEvictableIdleTimeMillis: 60000
