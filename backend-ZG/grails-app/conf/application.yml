@@ -135,11 +135,11 @@ environments:
             password: ${SPRING_DATASOURCE_PASSWORD:YKDkuwPYMJFflBoi}
             properties:
                 jmxEnabled: true
-                initialSize: 1
-                maxActive: 10
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
+                initialSize: 2
+                maxActive: 20
+                minIdle: 2
+                maxIdle: 10
+                maxWait: 30000
                 maxAge: 600000
                 timeBetweenEvictionRunsMillis: 5000
                 minEvictableIdleTimeMillis: 60000
@@ -149,5 +149,8 @@ environments:
                 testOnBorrow: true
                 testWhileIdle: true
                 testOnReturn: false
+                removeAbandoned: true
+                removeAbandonedTimeout: 60
+                logAbandoned: true
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
